@@ -3,7 +3,7 @@
 ## TYB (Thank You, Baby) — project notes
 
 - Naming: "Thank You, Baby" is the full name, shown on the welcome screen;
-  "TYB" is used everywhere else (app icon, tabs, emails, docs). The repo folder is still COVERED-APP.
+  "TYB" is used everywhere else (app icon, tabs, emails, docs). Repo: NOTBF22/TYB; website: https://notbf22.github.io/TYB/
 
 - Owner is non-technical: explain changes in plain language, keep the README roadmap current.
 - Work proceeds in numbered steps (see README "Roadmap"). Mark a step done there when finished.
