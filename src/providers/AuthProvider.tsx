@@ -1,13 +1,13 @@
 import { createContext, useContext, useMemo, useState, type ReactNode } from 'react';
 
-import type { Role } from '@/types/domain';
+import type { Role, VerificationStatus } from '@/types/domain';
 
 /**
- * Session state. For step 1 this is an in-memory mock so the whole flow can be
- * clicked through; step 2 swaps the internals for Supabase Auth without
- * changing this interface.
+ * Session state. For now an in-memory preview session so the whole flow can
+ * be clicked through; real sign-up and verification replace the internals
+ * later without changing this interface.
  */
-type Session = { userId: string; role: Role };
+type Session = { userId: string; role: Role; displayName: string; verification: VerificationStatus };
 
 type AuthContextValue = {
   session: Session | null;
@@ -23,7 +23,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const value = useMemo<AuthContextValue>(
     () => ({
       session,
-      signInAs: (role) => setSession({ userId: role === 'recipient' ? 'p1' : 'me', role }),
+      signInAs: (role) =>
+        setSession(
+          role === 'receiver'
+            ? { userId: 'p1', role, displayName: 'Amelia', verification: 'verified' }
+            : { userId: 'm1', role, displayName: 'James', verification: 'verified' },
+        ),
       signOut: () => setSession(null),
     }),
     [session],

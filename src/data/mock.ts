@@ -1,19 +1,30 @@
-import type { Bill, DiscoverCard, Profile } from '@/types/domain';
+import type { DiscoverCard, GiftReceived, GiftRequest, GiftSent, PlatformSettings, ReceiverProfile } from '@/types/domain';
 
 /**
- * Fictional sample data so every screen works before the backend is wired up
- * (step 2). Photos are colour placeholders — no real people.
+ * Fictional sample data so every screen works before the backend is wired up.
+ * Photos are colour placeholders — no real people. All gifts here are test
+ * records, not real payments.
  */
 
-const inDays = (n: number) => new Date(Date.now() + n * 86_400_000).toISOString().slice(0, 10);
+const daysAgo = (n: number) => new Date(Date.now() - n * 86_400_000).toISOString();
 
-const profiles: Profile[] = [
+/** Nothing configured yet — the fee is never invented. */
+export const mockSettings: PlatformSettings = {
+  feePercentBps: null,
+  feeFixedCents: null,
+  minGiftCents: null,
+  payoutDelayHours: null,
+  refundWindowDays: null,
+  connectionExpiryDays: null,
+};
+
+const profiles: ReceiverProfile[] = [
   {
     id: 'p1',
-    role: 'recipient',
     displayName: 'Amelia',
     age: 26,
-    city: 'Surry Hills',
+    city: 'Sydney',
+    countryCode: 'AU',
     bio: 'Nursing grad working nights at RPA. Weekends are for markets and long swims at Bronte.',
     prompts: [
       { question: 'A perfect Sunday', answer: 'Flat white, Carriageworks market, a nap I did not plan.' },
@@ -28,10 +39,10 @@ const profiles: Profile[] = [
   },
   {
     id: 'p2',
-    role: 'recipient',
     displayName: 'Priya',
     age: 29,
-    city: 'Newtown',
+    city: 'Sydney',
+    countryCode: 'AU',
     bio: 'Architecture student by day, bookshop by night. Will recommend you a novel whether you ask or not.',
     prompts: [
       { question: 'Currently reading', answer: 'Something with a map in the front.' },
@@ -45,31 +56,47 @@ const profiles: Profile[] = [
   },
   {
     id: 'p3',
-    role: 'recipient',
     displayName: 'Jess',
     age: 31,
-    city: 'Marrickville',
+    city: 'Sydney',
+    countryCode: 'AU',
     bio: 'Single mum of one very loud four-year-old. Pottery on Thursdays is my therapy.',
     prompts: [{ question: 'Proudest of', answer: 'Finishing my TAFE cert with a toddler on my hip.' }],
     photos: [
       { id: 'p3a', tone: '#DCC0B4', position: 0 },
       { id: 'p3b', tone: '#BE9A8C', position: 1 },
     ],
-    verified: false,
+    verified: true,
   },
 ];
 
-const bills: Bill[] = [
-  { id: 'b1', recipientId: 'p1', category: 'rent', billerName: 'Ray White Surry Hills', amountCents: 64000, coveredCents: 21000, currency: 'AUD', dueDate: inDays(9), status: 'live' },
-  { id: 'b2', recipientId: 'p1', category: 'electricity', billerName: 'AGL', amountCents: 18450, coveredCents: 0, currency: 'AUD', dueDate: inDays(14), status: 'live' },
-  { id: 'b3', recipientId: 'p2', category: 'internet', billerName: 'Aussie Broadband', amountCents: 8900, coveredCents: 4000, currency: 'AUD', dueDate: inDays(5), status: 'live' },
-  { id: 'b4', recipientId: 'p3', category: 'groceries', billerName: 'Woolworths (gift card)', amountCents: 15000, coveredCents: 0, currency: 'AUD', dueDate: inDays(3), status: 'live' },
-  { id: 'b5', recipientId: 'p3', category: 'education', billerName: 'Goodstart Early Learning', amountCents: 32000, coveredCents: 12000, currency: 'AUD', dueDate: inDays(20), status: 'live' },
+const requests: GiftRequest[] = [
+  { id: 'r1', receiverId: 'p1', kind: 'bill', title: 'Rent', description: 'This month’s rent.', amountCents: 64000, currency: 'AUD', status: 'live', verifiedByTyb: true },
+  { id: 'r2', receiverId: 'p1', kind: 'bill', title: 'Electricity', amountCents: 18450, currency: 'AUD', status: 'live', verifiedByTyb: true },
+  { id: 'r3', receiverId: 'p2', kind: 'bill', title: 'Internet', description: 'Keeping me online through final studio.', amountCents: 8900, currency: 'AUD', status: 'live', verifiedByTyb: true },
+  { id: 'r4', receiverId: 'p3', kind: 'expense', title: 'Groceries', amountCents: 15000, currency: 'AUD', status: 'live', verifiedByTyb: false },
+  { id: 'r5', receiverId: 'p3', kind: 'bill', title: 'Childcare', description: 'Two weeks of kindy.', amountCents: 32000, currency: 'AUD', status: 'live', verifiedByTyb: true },
 ];
 
 export const mockDeck: DiscoverCard[] = profiles.map((profile) => ({
   profile,
-  bills: bills.filter((b) => b.recipientId === profile.id && b.status === 'live'),
+  requests: requests.filter((r) => r.receiverId === profile.id && r.status === 'live'),
 }));
 
-export const mockMyBills: Bill[] = bills.filter((b) => b.recipientId === 'p1');
+/** Amelia's own requests (the receiver preview account). */
+export const mockMyRequests: GiftRequest[] = [
+  ...requests.filter((r) => r.receiverId === 'p1'),
+  { id: 'r6', receiverId: 'p1', kind: 'expense', title: 'Placement textbooks', amountCents: 21000, currency: 'AUD', status: 'pending_review', verifiedByTyb: false },
+];
+
+/** Giver preview account's history. Fee 0 because no fee is configured yet. */
+export const mockGiftsSent: GiftSent[] = [
+  { id: 'g1', receiverId: 'p2', receiverDisplayName: 'Priya', requestId: 'r0', giftAmountCents: 12000, feeCents: 0, totalCents: 12000, currency: 'AUD', isTest: true, paymentStatus: 'paid', payoutStatus: 'paid_out', createdAt: daysAgo(9), paidAt: daysAgo(9) },
+  { id: 'g2', receiverId: 'p1', receiverDisplayName: 'Amelia', giftAmountCents: 5000, feeCents: 0, totalCents: 5000, currency: 'AUD', isTest: true, paymentStatus: 'paid', payoutStatus: 'pending', createdAt: daysAgo(1), paidAt: daysAgo(1) },
+];
+
+/** Receiver preview account's history. */
+export const mockGiftsReceived: GiftReceived[] = [
+  { id: 'g2', giverId: 'm1', giverDisplayName: 'James', giftAmountCents: 5000, currency: 'AUD', isTest: true, paymentStatus: 'paid', payoutStatus: 'pending', paidAt: daysAgo(1) },
+  { id: 'g0', giverId: 'm2', giverDisplayName: 'Tom', requestId: 'r0', giftAmountCents: 9500, currency: 'AUD', isTest: true, paymentStatus: 'paid', payoutStatus: 'paid_out', paidAt: daysAgo(14), paidOutAt: daysAgo(12) },
+];

@@ -9,13 +9,13 @@ import { ProfileCard } from '@/components/ProfileCard';
 import { mockDeck } from '@/data/mock';
 import { colors, gradients, radius, space } from '@/theme';
 
-type Decision = 'pass' | 'cover' | 'save';
+type Decision = 'pass' | 'gift' | 'save';
 
 /**
  * Discover deck. One profile at a time, scrolled top to bottom like Hinge,
- * with Pass / Cover / Save in a strip below it.
- * Step 2 loads the deck from Supabase and records swipes and saves; step 4
- * turns "Cover" into the payment sheet.
+ * with Pass / Send a gift / Save in a strip below it. Only verified givers
+ * see this deck, and only verified receivers appear in it.
+ * Step 4 turns "Send a gift" into checkout (amount + TYB fee = total).
  */
 export default function Discover() {
   const [index, setIndex] = useState(0);
@@ -38,12 +38,12 @@ export default function Discover() {
             </ScrollView>
             <View style={styles.actions}>
               <RoundButton label="Pass" icon="close" onPress={() => decide('pass')} />
-              <RoundButton label="Cover a bill" icon="heart" size={84} accent onPress={() => decide('cover')} />
+              <RoundButton label="Send a gift" icon="heart" size={84} accent onPress={() => decide('gift')} />
               <RoundButton label="Save for later" icon="star-outline" onPress={() => decide('save')} />
             </View>
           </>
         ) : (
-          <EmptyState title="You're all caught up" body="New profiles appear as bills are verified. Check back soon." />
+          <EmptyState title="You're all caught up" body="New profiles appear as people complete verification. Check back soon." />
         )}
       </SafeAreaView>
     </View>

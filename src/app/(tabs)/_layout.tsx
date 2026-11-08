@@ -19,7 +19,7 @@ export default function TabsLayout() {
   const { session } = useAuth();
   if (!session) return <Redirect href="/welcome" />;
 
-  const isSupporter = session.role === 'supporter';
+  const isGiver = session.role === 'giver';
 
   return (
     <Tabs
@@ -32,16 +32,16 @@ export default function TabsLayout() {
         sceneStyle: { backgroundColor: colors.paper },
       }}
     >
-      {/* Supporters swipe; recipients manage their own bills. */}
+      {/* Givers browse; receivers manage their requests. */}
       <Tabs.Screen
         name="discover"
-        options={{ title: 'Discover', tabBarIcon: icon('albums-outline', 'albums'), href: isSupporter ? undefined : null }}
+        options={{ title: 'Discover', tabBarIcon: icon('albums-outline', 'albums'), href: isGiver ? undefined : null }}
       />
       <Tabs.Screen
-        name="bills"
-        options={{ title: 'My bills', tabBarIcon: icon('receipt-outline', 'receipt'), href: isSupporter ? null : undefined }}
+        name="requests"
+        options={{ title: 'Requests', tabBarIcon: icon('sparkles-outline', 'sparkles'), href: isGiver ? null : undefined }}
       />
-      <Tabs.Screen name="activity" options={{ title: 'Activity', tabBarIcon: icon('heart-outline', 'heart') }} />
+      <Tabs.Screen name="gifts" options={{ title: 'Gifts', tabBarIcon: icon('gift-outline', 'gift') }} />
       <Tabs.Screen name="profile" options={{ title: 'Profile', tabBarIcon: icon('person-outline', 'person') }} />
     </Tabs>
   );

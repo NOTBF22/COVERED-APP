@@ -1,30 +1,33 @@
 import { StyleSheet, View } from 'react-native';
 
-import { BillRow } from '@/components/BillRow';
 import { Button } from '@/components/Button';
+import { RequestRow } from '@/components/RequestRow';
 import { Screen } from '@/components/Screen';
 import { Text } from '@/components/Text';
-import { mockMyBills } from '@/data/mock';
+import { mockMyRequests } from '@/data/mock';
 import { colors, radius, space } from '@/theme';
 
-/** Recipient's bills. Step 3 adds "Add a bill" with document upload + review. */
-export default function Bills() {
+/** Receiver's gift, bill and expense requests. Creating them comes in step 3. */
+export default function Requests() {
   return (
     <Screen scroll>
       <Text variant="h1" style={styles.title}>
-        My bills
+        My requests
       </Text>
-      <Text variant="body">Verified bills appear on your profile. We pay the biller directly.</Text>
+      <Text variant="body">
+        Live requests appear on your profile. Each one is gifted in full. Bills are checked privately by TYB — the
+        company, total and account number are never shown.
+      </Text>
 
       <View style={styles.panel}>
-        {mockMyBills.map((b) => (
-          <BillRow key={b.id} bill={b} />
+        {mockMyRequests.map((r) => (
+          <RequestRow key={r.id} request={r} showStatus />
         ))}
       </View>
 
-      <Button label="Add a bill" variant="secondary" disabled />
+      <Button label="Add a request" variant="secondary" icon="add" disabled />
       <Text variant="caption" style={styles.soon}>
-        Adding bills arrives in a later step.
+        Adding requests arrives in the next step.
       </Text>
     </Screen>
   );

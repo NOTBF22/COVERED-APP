@@ -5,16 +5,17 @@ import { StyleSheet, View } from 'react-native';
 
 import { colors, gradients, radius, space } from '@/theme';
 import type { DiscoverCard, Prompt } from '@/types/domain';
-import { BillRow } from './BillRow';
+import { formatPlace } from '@/lib/format';
+import { RequestRow } from './RequestRow';
 import { Photo } from './Photo';
 import { Text } from './Text';
 
 /**
  * Hinge-style scrolling profile: lead photo, name, then photos interleaved
- * with prompts and the bio, and the bills at the end.
+ * with prompts and the bio, and her gift, bill and expense requests at the end.
  */
 export function ProfileCard({ card }: { card: DiscoverCard }) {
-  const { profile, bills } = card;
+  const { profile, requests } = card;
   const [lead, ...rest] = profile.photos;
 
   return (
@@ -26,7 +27,8 @@ export function ProfileCard({ card }: { card: DiscoverCard }) {
             <View style={styles.flex}>
               <View style={styles.nameRow}>
                 <Text variant="name">
-                  {profile.displayName}, {profile.age}
+                  {profile.displayName}
+                  {profile.age ? `, ${profile.age}` : ''}
                 </Text>
                 {profile.verified ? (
                   <Ionicons name="checkmark-circle" size={22} color={colors.white} accessibilityLabel="Verified" />
@@ -35,15 +37,15 @@ export function ProfileCard({ card }: { card: DiscoverCard }) {
               <View style={styles.metaRow}>
                 <Ionicons name="location-sharp" size={15} color={colors.white} />
                 <Text variant="body" color={colors.white}>
-                  {profile.city}
+                  {formatPlace(profile.city, profile.countryCode)}
                 </Text>
               </View>
             </View>
-            {bills.length > 0 ? (
-              <View style={styles.billChip} accessibilityLabel={`${bills.length} bills to cover`}>
-                <Ionicons name="receipt-outline" size={22} color={colors.white} />
+            {requests.length > 0 ? (
+              <View style={styles.billChip} accessibilityLabel={`${requests.length} requests`}>
+                <Ionicons name="gift-outline" size={22} color={colors.white} />
                 <Text variant="caption" color={colors.white}>
-                  {bills.length}
+                  {requests.length}
                 </Text>
               </View>
             ) : null}
@@ -67,13 +69,13 @@ export function ProfileCard({ card }: { card: DiscoverCard }) {
         ),
       )}
 
-      {bills.length > 0 ? (
+      {requests.length > 0 ? (
         <Panel>
           <Text variant="label" uppercase>
-            Bills to cover
+            Her requests
           </Text>
-          {bills.map((b) => (
-            <BillRow key={b.id} bill={b} />
+          {requests.map((r) => (
+            <RequestRow key={r.id} request={r} />
           ))}
         </Panel>
       ) : null}

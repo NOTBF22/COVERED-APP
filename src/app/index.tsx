@@ -6,5 +6,5 @@ import { useAuth } from '@/providers/AuthProvider';
 export default function Index() {
   const { session } = useAuth();
   if (!session) return <Redirect href="/welcome" />;
-  return <Redirect href={session.role === 'supporter' ? '/discover' : '/bills'} />;
+  return <Redirect href={session.role === 'giver' ? '/discover' : '/requests'} />;
 }

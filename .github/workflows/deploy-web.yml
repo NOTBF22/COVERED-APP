@@ -35,6 +35,8 @@ jobs:
             a.expo.experiments = { ...a.expo.experiments, baseUrl: "/TYB" };
             fs.writeFileSync("app.json", JSON.stringify(a, null, 2));'
       - run: npx tsc --noEmit
+      - name: Database rules (acceptance tests)
+        run: npm run test:db
       - run: npx expo export --platform web
         env:
           CI: 1

@@ -7,8 +7,8 @@ import { useAuth } from '@/providers/AuthProvider';
 import { colors, space } from '@/theme';
 
 /**
- * Welcome + role choice. Step 2 replaces the direct sign-in with real
- * sign-up (Apple / Google / email), 18+ check and onboarding.
+ * Welcome + role choice. Real sign-up (Apple / Google / email), the 18+
+ * check and full verification replace the direct preview sign-in later.
  */
 export default function Welcome() {
   const { signInAs } = useAuth();
@@ -20,25 +20,25 @@ export default function Welcome() {
           Thank You, Baby
         </Text>
         <Text variant="tagline" uppercase style={[styles.center, styles.tagline]}>
-          Kindness,{'\n'}paid forward
+          Private gifting,{'\n'}beautifully simple
         </Text>
         <View style={styles.rule} />
         <Text variant="body" style={[styles.center, styles.lede]}>
-          Meet real people with real bills, and cover one directly. Every payment goes straight to
-          the biller — never cash in hand.
+          Browse verified profiles and send gifts or cover bills through TYB. Personal, bank and
+          payment details always stay private.
         </Text>
       </View>
 
       <View style={styles.actions}>
-        <Button label="I want to cover bills" icon="heart" onPress={() => signInAs('supporter')} />
+        <Button label="I want to send gifts" icon="gift-outline" onPress={() => signInAs('giver')} />
         <Button
-          label="I have bills to share"
-          icon="receipt-outline"
+          label="I want to receive gifts"
+          icon="sparkles-outline"
           variant="secondary"
-          onPress={() => signInAs('recipient')}
+          onPress={() => signInAs('receiver')}
         />
         <Text variant="caption" style={[styles.center, styles.legal]}>
-          18+ only. Preview mode — sample profiles, no real payments.
+          18+ only. Everyone completes verification.{'\n'}Preview mode — sample profiles, no real payments.
         </Text>
       </View>
     </Screen>
