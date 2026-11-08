@@ -1,5 +1,5 @@
 # Builds the web version of Covered and publishes it to GitHub Pages
-# (https://notbf22.github.io/covered-app/) on every push to main.
+# (https://notbf22.github.io/COVERED-APP/) on every push to main.
 # One-time setup: repo Settings → Pages → Source: "GitHub Actions".
 name: Deploy website
 
@@ -27,12 +27,12 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - name: Serve from /covered-app (Pages sub-path)
+      - name: Serve from /COVERED-APP (Pages sub-path)
         run: |
           node -e '
             const fs = require("fs");
             const a = JSON.parse(fs.readFileSync("app.json"));
-            a.expo.experiments = { ...a.expo.experiments, baseUrl: "/covered-app" };
+            a.expo.experiments = { ...a.expo.experiments, baseUrl: "/COVERED-APP" };
             fs.writeFileSync("app.json", JSON.stringify(a, null, 2));'
       - run: npx tsc --noEmit
       - run: npx expo export --platform web
