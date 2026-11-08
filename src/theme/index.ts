@@ -1,25 +1,36 @@
 /**
  * TYB design tokens.
  *
- * Direction: warm, editorial, quiet. Cream paper, near-black ink, one deep
- * oxblood accent. Serif headings (Fraunces) over a clean sans body (Inter).
- * Photos do the talking — chrome stays out of the way.
+ * Direction: soft satin blush. Pale pink paper, warm cocoa ink, dusty-mauve
+ * primary buttons and a rose heart. Italic serif for the brand and names
+ * (Fraunces) over a clean sans body (Inter). Photos do the talking.
  */
 
 export const colors = {
-  paper: '#F6F1EA', // app background
-  card: '#FFFDF9', // raised surfaces
-  ink: '#1C1A17', // primary text
-  inkSoft: '#4A453F', // secondary text
-  muted: '#8A8178', // captions, placeholders
-  line: '#E4DCD1', // hairlines and borders
-  accent: '#6B2D3C', // oxblood — primary actions
-  accentSoft: '#F1E4E6', // accent tint backgrounds
-  success: '#3F6B4F',
-  warning: '#9A6B1F',
-  danger: '#9B2C2C',
+  paper: '#F6EAE5', // app background (blush)
+  paperDeep: '#EED9D2', // bottom of background gradients
+  card: '#FCF6F3', // raised surfaces
+  glass: 'rgba(252,246,243,0.72)', // round buttons, frosted chips
+  ink: '#3D2B29', // primary text (cocoa)
+  inkSoft: '#6E5652', // secondary text
+  muted: '#A38C87', // captions, placeholders
+  line: '#E8D3CC', // hairlines and borders
+  accent: '#7B4B48', // dusty mauve — primary buttons, active tab
+  accentSoft: '#F0DCD6', // accent tint backgrounds
+  rose: '#D9958F', // the heart / "cover" action
+  roseDeep: '#C97F79',
+  success: '#5E7F63',
+  warning: '#A77A3A',
+  danger: '#A3423F',
   white: '#FFFFFF',
 } as const;
+
+/** Background wash used on full-screen pages. */
+export const gradients = {
+  paper: [colors.card, colors.paper, colors.paperDeep] as const,
+  photoScrim: ['rgba(40,24,22,0)', 'rgba(40,24,22,0.55)'] as const,
+  rose: [colors.rose, colors.roseDeep] as const,
+};
 
 export const fonts = {
   display: 'Fraunces_600SemiBold',
@@ -47,7 +58,10 @@ export const radius = {
 } as const;
 
 export const type = {
+  brand: { fontFamily: fonts.displayItalic, fontSize: 44, lineHeight: 52, color: colors.ink },
+  tagline: { fontFamily: fonts.body, fontSize: 14, lineHeight: 24, letterSpacing: 4, color: colors.inkSoft },
   hero: { fontFamily: fonts.display, fontSize: 40, lineHeight: 46, color: colors.ink },
+  name: { fontFamily: fonts.display, fontSize: 32, lineHeight: 38, color: colors.white },
   h1: { fontFamily: fonts.display, fontSize: 30, lineHeight: 36, color: colors.ink },
   h2: { fontFamily: fonts.display, fontSize: 22, lineHeight: 28, color: colors.ink },
   quote: { fontFamily: fonts.displayItalic, fontSize: 20, lineHeight: 28, color: colors.ink },

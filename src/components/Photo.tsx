@@ -1,20 +1,22 @@
 import { Image } from 'expo-image';
+import type { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { colors, radius } from '@/theme';
 import type { Photo as PhotoT } from '@/types/domain';
 
 /** Portrait photo tile (4:5). Falls back to a warm colour block in mock mode. */
-export function Photo({ photo }: { photo: PhotoT }) {
+export function Photo({ photo, children }: { photo: PhotoT; children?: ReactNode }) {
   return (
     <View style={[styles.root, { backgroundColor: photo.tone ?? colors.line }]}>
       {photo.uri ? (
         <Image source={{ uri: photo.uri }} style={StyleSheet.absoluteFill} contentFit="cover" transition={200} />
       ) : null}
+      {children}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  root: { width: '100%', aspectRatio: 4 / 5, borderRadius: radius.lg, overflow: 'hidden' },
+  root: { width: '100%', aspectRatio: 4 / 5, borderRadius: radius.lg + 6, overflow: 'hidden' },
 });

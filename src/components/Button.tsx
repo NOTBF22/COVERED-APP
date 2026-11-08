@@ -1,3 +1,5 @@
+import { Ionicons } from '@expo/vector-icons';
+import type { ComponentProps } from 'react';
 import { Pressable, StyleSheet, type PressableProps, type ViewStyle } from 'react-native';
 
 import { colors, radius, space } from '@/theme';
@@ -8,10 +10,11 @@ type Variant = 'primary' | 'secondary' | 'ghost';
 type Props = Omit<PressableProps, 'style'> & {
   label: string;
   variant?: Variant;
+  icon?: ComponentProps<typeof Ionicons>['name'];
   style?: ViewStyle;
 };
 
-export function Button({ label, variant = 'primary', style, disabled, ...rest }: Props) {
+export function Button({ label, variant = 'primary', icon, style, disabled, ...rest }: Props) {
   const v = variants[variant];
   return (
     <Pressable
@@ -26,6 +29,7 @@ export function Button({ label, variant = 'primary', style, disabled, ...rest }:
         style,
       ]}
     >
+      {icon ? <Ionicons name={icon} size={20} color={v.text} /> : null}
       <Text variant="button" color={v.text}>
         {label}
       </Text>
@@ -36,7 +40,7 @@ export function Button({ label, variant = 'primary', style, disabled, ...rest }:
 const variants: Record<Variant, { container: ViewStyle; text: string }> = {
   primary: { container: { backgroundColor: colors.accent }, text: colors.white },
   secondary: {
-    container: { backgroundColor: colors.card, borderWidth: 1, borderColor: colors.line },
+    container: { backgroundColor: 'transparent', borderWidth: 1, borderColor: colors.line },
     text: colors.ink,
   },
   ghost: { container: { backgroundColor: 'transparent' }, text: colors.inkSoft },
@@ -44,9 +48,11 @@ const variants: Record<Variant, { container: ViewStyle; text: string }> = {
 
 const styles = StyleSheet.create({
   base: {
-    minHeight: 52,
+    minHeight: 56,
     paddingHorizontal: space.xl,
     borderRadius: radius.pill,
+    flexDirection: 'row',
+    gap: space.md,
     alignItems: 'center',
     justifyContent: 'center',
   },

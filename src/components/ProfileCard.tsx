@@ -1,8 +1,9 @@
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Fragment } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { colors, radius, space } from '@/theme';
+import { colors, gradients, radius, space } from '@/theme';
 import type { DiscoverCard, Prompt } from '@/types/domain';
 import { BillRow } from './BillRow';
 import { Photo } from './Photo';
@@ -18,17 +19,37 @@ export function ProfileCard({ card }: { card: DiscoverCard }) {
 
   return (
     <View style={styles.root}>
-      <View style={styles.nameRow}>
-        <Text variant="h1">{profile.displayName}</Text>
-        {profile.verified ? (
-          <Ionicons name="checkmark-circle" size={20} color={colors.accent} accessibilityLabel="Verified" />
-        ) : null}
-      </View>
-      <Text variant="caption" style={styles.meta}>
-        {profile.age} · {profile.city}
-      </Text>
-
-      {lead ? <Photo photo={lead} /> : null}
+      {lead ? (
+        <Photo photo={lead}>
+          <LinearGradient colors={gradients.photoScrim} style={styles.scrim} />
+          <View style={styles.overlay}>
+            <View style={styles.flex}>
+              <View style={styles.nameRow}>
+                <Text variant="name">
+                  {profile.displayName}, {profile.age}
+                </Text>
+                {profile.verified ? (
+                  <Ionicons name="checkmark-circle" size={22} color={colors.white} accessibilityLabel="Verified" />
+                ) : null}
+              </View>
+              <View style={styles.metaRow}>
+                <Ionicons name="location-sharp" size={15} color={colors.white} />
+                <Text variant="body" color={colors.white}>
+                  {profile.city}
+                </Text>
+              </View>
+            </View>
+            {bills.length > 0 ? (
+              <View style={styles.billChip} accessibilityLabel={`${bills.length} bills to cover`}>
+                <Ionicons name="receipt-outline" size={22} color={colors.white} />
+                <Text variant="caption" color={colors.white}>
+                  {bills.length}
+                </Text>
+              </View>
+            ) : null}
+          </View>
+        </Photo>
+      ) : null}
 
       <Panel>
         <Text variant="body" color={colors.ink}>
@@ -87,9 +108,30 @@ function PromptPanel({ prompt }: { prompt: Prompt }) {
 }
 
 const styles = StyleSheet.create({
-  root: { gap: space.lg },
-  nameRow: { flexDirection: 'row', alignItems: 'center', gap: space.sm, marginTop: space.lg },
-  meta: { marginTop: -space.md },
+  root: { gap: space.lg, paddingTop: space.md },
+  scrim: { position: 'absolute', left: 0, right: 0, bottom: 0, height: '45%' },
+  overlay: {
+    position: 'absolute',
+    left: space.xl,
+    right: space.lg,
+    bottom: space.xl,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    gap: space.md,
+  },
+  flex: { flex: 1 },
+  nameRow: { flexDirection: 'row', alignItems: 'center', gap: space.sm },
+  metaRow: { flexDirection: 'row', alignItems: 'center', gap: space.xs, marginTop: space.xs },
+  billChip: {
+    width: 60,
+    height: 60,
+    borderRadius: radius.pill,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.55)',
+    backgroundColor: 'rgba(255,255,255,0.14)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   panel: {
     backgroundColor: colors.card,
     borderRadius: radius.lg,
