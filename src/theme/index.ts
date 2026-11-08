@@ -1,5 +1,5 @@
 /**
- * Covered design tokens.
+ * TYB design tokens.
  *
  * Direction: warm, editorial, quiet. Cream paper, near-black ink, one deep
  * oxblood accent. Serif headings (Fraunces) over a clean sans body (Inter).

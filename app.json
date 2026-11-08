@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "Covered",
-    "slug": "covered",
+    "name": "TYB",
+    "slug": "tyb",
     "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "app.covered.mobile"
+      "bundleIdentifier": "app.tyb.mobile"
     },
     "android": {
       "adaptiveIcon": {
@@ -18,21 +18,24 @@
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "app.covered.mobile"
+      "package": "app.tyb.mobile"
     },
     "web": {
       "favicon": "./assets/favicon.png",
       "output": "single",
-      "bundler": "metro"
+      "bundler": "metro",
+      "name": "TYB \u2013 Thank You, Baby",
+      "shortName": "TYB"
     },
     "plugins": [
       "expo-router",
       "expo-image",
       "expo-font"
     ],
-    "scheme": "covered",
+    "scheme": "tyb",
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "description": "TYB (Thank You, Baby)"
   }
 }

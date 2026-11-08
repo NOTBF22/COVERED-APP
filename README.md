@@ -1,8 +1,8 @@
-# Covered
+# TYB — Thank You, Baby
 
 A Hinge-style app where supporters browse verified profiles and cover real
 bills for the people behind them. Payments go **directly to the biller**
-(landlord, energy company, childcare) — never to the person — with Covered
+(landlord, energy company, childcare) — never to the person — with TYB
 acting as the middleman.
 
 Built with Expo (React Native + TypeScript), Expo Router and Supabase.

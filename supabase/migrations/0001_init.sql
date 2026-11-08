@@ -1,4 +1,4 @@
--- Covered — initial schema
+-- TYB (Thank You, Baby) — initial schema
 -- Mirrors src/types/domain.ts. Money is integer cents.
 --
 -- Safety principles baked in here:

@@ -22,7 +22,7 @@ export type BillCategory =
 /**
  * Bill lifecycle:
  * draft → pending_review (doc uploaded) → live (verified, visible) →
- * funded (fully covered) → paid (Covered has paid the biller directly).
+ * funded (fully covered) → paid (TYB has paid the biller directly).
  * `rejected` and `expired` are terminal.
  */
 export type BillStatus =
@@ -66,7 +66,7 @@ export type Bill = {
   id: string;
   recipientId: string;
   category: BillCategory;
-  /** Who gets paid — Covered pays this biller directly, never the person. */
+  /** Who gets paid — TYB pays this biller directly, never the person. */
   billerName: string;
   amountCents: number;
   /** Sum of succeeded contributions. */

@@ -17,7 +17,7 @@ export default function Welcome() {
     <Screen edges={['top', 'bottom']} contentStyle={styles.content}>
       <View style={styles.brand}>
         <Text variant="label" uppercase>
-          Covered
+          Thank You, Baby
         </Text>
         <Text variant="hero" style={styles.title}>
           Kindness,{'\n'}

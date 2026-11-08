@@ -1,4 +1,4 @@
-# Builds the web version of Covered and publishes it to GitHub Pages
+# Builds the web version of TYB and publishes it to GitHub Pages
 # (https://notbf22.github.io/COVERED-APP/) on every push to main.
 # One-time setup: repo Settings → Pages → Source: "GitHub Actions".
 name: Deploy website
